@@ -6,7 +6,7 @@ This is the demo application that will be built during [Jason Lengtorf][1]'s wor
 using [Instagram's API][3] and [Pusher][4].
 
 [1]: http://github.com/jlengstorf
-[2]: http://futureinsightslive.com/
+[2]: http://futureinsightslive.com/las-vegas-2013/
 [3]: http://instagram.com/developer/
 [4]: http://pusher.com/
 
