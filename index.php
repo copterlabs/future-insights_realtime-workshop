@@ -57,7 +57,7 @@ curl -F 'client_id=6019cd09a31d488eab0a8e072f408415' \
      -F 'client_secret=d1fcd47c601e4d80912f5168fc8efaa7' \
      -F 'object=tag' \
      -F 'aspect=media' \
-     -F 'object_id=filive' \
+     -F 'object_id=catstagram' \
      -F 'callback_url=http://demo.copterlabs.com/filive/workshop/' \
      https://api.instagram.com/v1/subscriptions/
 
@@ -106,7 +106,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
                     <img src="<?=$photo->images->thumbnail->url?>"
                          alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>"
                          data-id="<?=$photo->id?>" />
-                    <strong>Photo by <?=$photo->user->username?>.</strong>
+                    <strong>Photo by <?=$photo->user->username?></strong>
                 </a>
             </li>
         <?php endforeach; ?>
@@ -179,8 +179,36 @@ jQuery(function($){
                 'max_id': max_ID
             }
         )
-        .done(function(data){
-            console.log(data);
+        .done(function(response){
+            console.log(response);
+
+            var new_photos = response.data;
+
+            for (x in new_photos) {
+                var photo = new_photos[x],
+                    caption = (typeof photo.caption.text!=='undefined') ? photo.caption.text : '',
+                    img = $('<img />', {
+                        src: photo.images.thumbnail.url,
+                        alt: caption
+                    }),
+                    link = $('<a />', {
+                        href: photo.link,
+                        html: img
+                    }).append($('<strong />'), {
+                        text: 'Photo by ' + photo.user.username
+                    }).prependTo($("#photos")).wrap('<li />');
+
+            /*
+            <li>
+                <a href="<?=$photo->link?>">
+                    <img src="<?=$photo->images->thumbnail->url?>"
+                         alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>"
+                         data-id="<?=$photo->id?>" />
+                    <strong>Photo by <?=$photo->user->username?>.</strong>
+                </a>
+            </li>
+            */
+            }
         })
         .error(function(data){
             console.log(data);
