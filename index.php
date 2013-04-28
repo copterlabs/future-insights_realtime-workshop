@@ -13,11 +13,6 @@ $pusher_key    = '867d60a8d5de3996dd25';
 $pusher_secret = '7709ac1336e7968d1a61';
 $pusher_app_id = '42771';
 
-class NewPhotoCount
-{
-    public static $new_photos = 0;
-}
-
 // Catches the Instagram realtime Pubsubhubub challenge flow
 if (isset($_GET['hub_challenge'])) {
     echo $_GET['hub_challenge'];
@@ -32,17 +27,19 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 
     $photos = json_decode($update);
     if (is_array($photos)) {
-        NewPhotoCount::$new_photos += count($photos);
+        $length = count($photos);
     }
 
-    $pusher = new Pusher($pusher_key, $pusher_secret, $pusher_app_id);
-    $pusher->trigger(
-        'selfies', 
-        'new-selfie', 
-        array(
-            'newcount' => NewPhotoCount::$new_photos
-        )
-    );
+    if ($length>0) {
+        $pusher = new Pusher($pusher_key, $pusher_secret, $pusher_app_id);
+        $pusher->trigger(
+            'selfies', 
+            'new-selfie', 
+            array(
+                'newcount' => $length,
+            )
+        );
+    }
 }
 
 // Get 12 most recent IG photos
@@ -121,13 +118,16 @@ jQuery(function($){
     // Flash fallback logging - don't include this in production
     WEB_SOCKET_DEBUG = true;
 
-    var pusher  = new Pusher('867d60a8d5de3996dd25'),
-        channel = pusher.subscribe('selfies'),
-        selfies = $('selfies');
+    var newcount = 0,
+        pusher   = new Pusher('867d60a8d5de3996dd25'),
+        channel  = pusher.subscribe('selfies'),
+        selfies  = $('selfies');
 
     channel.bind('new-selfie', function(data){
 
-        console.log(data);
+        newcount += data.newcount;
+
+        console.log(newcount);
 
         // If the loading LI still exists, removes it
         // if (selfie_count===1) {
