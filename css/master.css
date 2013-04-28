@@ -20,3 +20,8 @@ header,article,footer {
     margin: 0;
     padding: 0;
 }
+
+#photos li strong {
+    display: block;
+    text-align: center;
+}
