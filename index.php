@@ -14,25 +14,34 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     // Instantiates Pusher PHP API
     require 'lib/Pusher.php';
 
+    $update = file_get_contents('php://input');
+
     $pusher = new Pusher('867d60a8d5de3996dd25', '7709ac1336e7968d1a61', '42771');
     $pusher->trigger(
         'selfies', 
         'new-selfie', 
         array(
             'selfie' => 'New selfie!', 
-            'debug' => json_encode($_POST)
+            'debug' => $update
         )
     );
 }
 
 /*
-curl -F 'client_id=e9550fc2f7654d5ba248fc710462af7a'
-     -F 'client_secret=466d4d104a4449d896c5cc977e086379'
-     -F 'object=tag'
-     -F 'aspect=media'
-     -F 'object_id=hipster'
-     -F 'callback_url=http://demo.copterlabs.com/filive/workshop/'
+curl -F 'client_id=e9550fc2f7654d5ba248fc710462af7a' \
+     -F 'client_secret=466d4d104a4449d896c5cc977e086379' \
+     -F 'object=tag' \
+     -F 'aspect=media' \
+     -F 'object_id=hipster' \
+     -F 'callback_url=http://demo.copterlabs.com/filive/workshop/' \
      https://api.instagram.com/v1/subscriptions/
+
+curl -X DELETE https://api.instagram.com/v1/subscriptions?client_secret=466d4d104a4449d896c5cc977e086379&client_id=e9550fc2f7654d5ba248fc710462af7a&id=3120013
+curl -X DELETE \
+     -F 'client_id=e9550fc2f7654d5ba248fc710462af7a' \
+     -F 'client_secret=466d4d104a4449d896c5cc977e086379' \
+     -F 'id=3120013' \
+     https://api.instagram.com/v1/subscriptions
 */
 
 ?>
