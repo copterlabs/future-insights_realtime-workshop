@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
             'new-photo', 
             array(
                 'newcount' => $length,
-                'photos' => $photos,
             )
         );
     }
@@ -93,7 +92,8 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
             <p>
                 <strong id="count">0 new photos posted.</strong>
                 <a href="<?=$page_url?>"
-                   class="button">&#8635; Load the new images </a>
+                   class="button"
+                   id="image-loader">&#8635; Load the new images </a>
             </p>
         </div>
 
@@ -151,10 +151,11 @@ jQuery(function($){
     WEB_SOCKET_DEBUG = true;
 
     var newcount = 0,
-        pusher   = new Pusher('867d60a8d5de3996dd25'),
+        pusher   = new Pusher(<?=$pusher_key?>),
         channel  = pusher.subscribe('photos'),
         photos   = $('photos'),
-        max_ID   = photos.children('li').filter(':last-child').find('img').data('id');
+        max_ID   = photos.children('li').filter(':last-child')
+                    .find('img').data('id');
 
     channel.bind('new-photo', function(data){
 
@@ -165,11 +166,23 @@ jQuery(function($){
 
         $('#count-bar').removeClass('hidden').find('#count').text(phrase);
 
-        console.log(data);
-        console.log(max_ID);
+    });
 
+    $("#image-loader").bind('click', function(event){
+        event.preventDefault();
 
-
+        $.get(
+            'http://api.instagram.com/v1/tags/<?=$tag?>/media/recent',
+            {
+                'access_token': '<?=$token?>',
+                'count': 16,
+                'max_id': max_ID
+            },
+            function(data) {
+                console.log(data);
+            },
+            "json"
+        );
     });
 
 });
