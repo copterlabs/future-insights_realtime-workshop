@@ -84,8 +84,8 @@ channel.bind('new-selfie', function(data){
 
     // Creates a new LI with the selfie
     //TODO: Add selfie markup
-    var li = document.createElement("li").appendChild(data.selfie);
-
+    var li = document.createElement("li");
+    li.appendChild(data.selfie);
     ul.appendChild(li);
 
     return;
