@@ -35,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 $token = isset($_GET['access_token']) ? $_GET['access_token'] : NULL;
 $ch = curl_init('https://api.instagram.com/v1/tags/selfie/media/recent?count=16&access_token=' . $token);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$photos = curl_exec($ch);
+$response = json_decode(curl_exec($ch));
+$photos = $response->data;
 
 /*
 
@@ -74,7 +75,15 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
 <div class="message hidden"></div>
 
 <ul id="selfies">
-    <li class="loading">No selfies yet&hellip; #sadface</li>
+<? foreach ($photos as $photo): ?>
+    <li>
+        <a href="<?=$photo->link?>">
+            <img src="<?=$photo->images->thumbnail->url?>"
+                 alt="<?=$photo->caption->text?>" />
+            <strong>Photo by <?=$photo->from->username?>.</strong>
+        </a>
+    </li>
+<? endforeach; ?>
 </ul><!--/#selfies-->
 
 <pre>
