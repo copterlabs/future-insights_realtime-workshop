@@ -63,6 +63,8 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
 
 <meta charset="utf-8" />
 
+<link rel="stylesheet" href="css/master.css" />
+
 <title>Realtime Workshop by Jason Lengstorf &mdash; Future Insights Live</title>
 
 </head>
