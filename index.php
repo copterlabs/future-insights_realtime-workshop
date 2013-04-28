@@ -171,19 +171,18 @@ jQuery(function($){
     $("#image-loader").bind('click', function(event){
         event.preventDefault();
 
-        $.get(
+        $.getJSON(
             'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent',
             {
                 'access_token': '<?=$token?>',
                 'count': 16,
                 'max_id': max_ID,
                 'callback': 'igLoad'
-            },
-            function(data) {
-                console.log(data);
-            },
-            "json"
+            }
         )
+        .done(function(data) {
+            console.log(data);
+        })
         .fail(function(){
             console.log('Something went wrong with the GET call.');
         });
