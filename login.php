@@ -9,7 +9,7 @@ if (isset($_GET['code'])) {
         'grant_type' => 'authorization_code',
         'client_id' => $ig_client_id,
         'client_secret' => $ig_secret,
-        'redirect_uri' => $ig_redirect,
+        'redirect_uri' => $ig_login_uri,
     );
 
     $ch = curl_init('https://api.instagram.com/oauth/access_token');
