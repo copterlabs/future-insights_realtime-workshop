@@ -176,7 +176,8 @@ jQuery(function($){
             {
                 'access_token': '<?=$token?>',
                 'count': 16,
-                'max_id': max_ID
+                'max_id': max_ID,
+                'callback': 'igLoad'
             },
             function(data) {
                 console.log(data);
