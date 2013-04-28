@@ -4,6 +4,20 @@
 error_reporting(E_ALL^E_STRICT);
 ini_set('display_errors', 1);
 
+// Instagram API credentials
+$ig_client_id = 'e9550fc2f7654d5ba248fc710462af7a';
+$ig_secret    = '466d4d104a4449d896c5cc977e086379';
+
+// Pusher API credentials
+$pusher_key    = '867d60a8d5de3996dd25';
+$pusher_secret = '7709ac1336e7968d1a61';
+$pusher_app_id = '42771';
+
+class NewPhotoCount
+{
+    public static $new_photos = 0;
+}
+
 // Catches the Instagram realtime Pubsubhubub challenge flow
 if (isset($_GET['hub_challenge'])) {
     echo $_GET['hub_challenge'];
@@ -16,32 +30,46 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 
     $update = file_get_contents('php://input');
 
-    $pusher = new Pusher('867d60a8d5de3996dd25', '7709ac1336e7968d1a61', '42771');
+    $photos = json_decode($update);
+    if (is_array($photos)) {
+        NewPhotoCount::$new_photos += count($photos);
+    }
+
+    $pusher = new Pusher($pusher_key, $pusher_secret, $pusher_app_id);
     $pusher->trigger(
         'selfies', 
         'new-selfie', 
         array(
-            'selfie' => 'New selfie!', 
-            'debug' => $update
+            'newcount' => NewPhotoCount::$new_photos
         )
     );
 }
 
+// Get 12 most recent IG photos
+$url_params = array(
+    'client_id' => $ig_client_id,
+    'client_secret' => $ig_secret,
+);
+
+$ch = curl_init('https://api.instagram.com/v1/tags/selfie/media/recent');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($url_params));
+$photos = curl_exec($ch);
+
 /*
+
+https://api.instagram.com/v1/tags/nofilter/media/recent
+
 curl -F 'client_id=e9550fc2f7654d5ba248fc710462af7a' \
      -F 'client_secret=466d4d104a4449d896c5cc977e086379' \
      -F 'object=tag' \
      -F 'aspect=media' \
-     -F 'object_id=hipster' \
+     -F 'object_id=selfie' \
      -F 'callback_url=http://demo.copterlabs.com/filive/workshop/' \
      https://api.instagram.com/v1/subscriptions/
 
-curl -X DELETE https://api.instagram.com/v1/subscriptions?client_secret=466d4d104a4449d896c5cc977e086379&client_id=e9550fc2f7654d5ba248fc710462af7a&id=3120013
-curl -X DELETE \
-     -F 'client_id=e9550fc2f7654d5ba248fc710462af7a' \
-     -F 'client_secret=466d4d104a4449d896c5cc977e086379' \
-     -F 'id=3120013' \
-     https://api.instagram.com/v1/subscriptions
+curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d104a4449d896c5cc977e086379&client_id=e9550fc2f7654d5ba248fc710462af7a&object=all'
+
 */
 
 ?>
@@ -60,9 +88,15 @@ curl -X DELETE \
 
 <h1>Selfies!</h1>
 
+<div class="message hidden"></div>
+
 <ul id="selfies">
     <li class="loading">No selfies yet&hellip; #sadface</li>
 </ul><!--/#selfies-->
+
+<pre>
+<? print_r($photos); ?> 
+</pre>
 
 <footer>
     <p>
@@ -73,41 +107,46 @@ curl -X DELETE \
     </p>
 </footer>
 
+<script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 <script src="http://js.pusher.com/2.0/pusher.min.js"></script>
 <script>
 
-// Enable pusher logging - don't include this in production
-Pusher.log = function(message) {
-    if (window.console && window.console.log) window.console.log(message);
-};
+jQuery(function($){
 
-// Flash fallback logging - don't include this in production
-WEB_SOCKET_DEBUG = true;
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+        if (window.console && window.console.log) window.console.log(message);
+    };
 
-var pusher  = new Pusher('867d60a8d5de3996dd25'),
-    channel = pusher.subscribe('selfies'),
-    selfies = document.getElementById('selfies');
+    // Flash fallback logging - don't include this in production
+    WEB_SOCKET_DEBUG = true;
 
-channel.bind('new-selfie', function(data){
+    var pusher  = new Pusher('867d60a8d5de3996dd25'),
+        channel = pusher.subscribe('selfies'),
+        selfies = $('selfies');
 
-    var selfie_count = selfies.childNodes.length;
+    channel.bind('new-selfie', function(data){
 
-    console.log(data.debug);
+        var selfie_count = selfies.childNodes.length;
 
-    // If the loading LI still exists, removes it
-    // if (selfie_count===1) {
-    //     for (var i=0; i<selfies.childNodes.length; i++) {
-    //         if (selfies.childNodes[i].className==="loading") {
-    //             selfies.removeChild(selfies.childNodes[i]);
-    //         }
-    //     }
-    // }
+        console.log(data.debug);
 
-    // Creates a new LI with the selfie
-    //TODO: Add selfie markup
-    // var li = document.createElement("li");
-    // li.appendChild(data.selfie);
-    // ul.appendChild(li);
+        // If the loading LI still exists, removes it
+        // if (selfie_count===1) {
+        //     for (var i=0; i<selfies.childNodes.length; i++) {
+        //         if (selfies.childNodes[i].className==="loading") {
+        //             selfies.removeChild(selfies.childNodes[i]);
+        //         }
+        //     }
+        // }
+
+        // Creates a new LI with the selfie
+        //TODO: Add selfie markup
+        // var li = document.createElement("li");
+        // li.appendChild(data.selfie);
+        // ul.appendChild(li);
+
+    });
 
 });
 
