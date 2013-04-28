@@ -39,7 +39,7 @@ $tag = isset($_GET['tag']) ? $_GET['tag'] : 'photo';
 $api_url = 'https://api.instagram.com/v1/tags/' 
          . $tag . '/media/recent?count=16&access_token=' . $token;
 
-$page_url = 'http://' . $_SERVER['SERVER_NAME'];
+$page_url = 'http://' . $_SERVER['SERVER_NAME'] . dirname(__FILE__);
 
 $ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
