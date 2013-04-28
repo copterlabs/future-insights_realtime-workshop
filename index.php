@@ -48,7 +48,7 @@ curl -F 'client_id=6019cd09a31d488eab0a8e072f408415' \
      -F 'client_secret=d1fcd47c601e4d80912f5168fc8efaa7' \
      -F 'object=tag' \
      -F 'aspect=media' \
-     -F 'object_id=pbr' \
+     -F 'object_id=instacat' \
      -F 'callback_url=http://demo.copterlabs.com/filive/workshop/' \
      https://api.instagram.com/v1/subscriptions/
 
@@ -138,13 +138,13 @@ jQuery(function($){
     var newcount = 0,
         pusher   = new Pusher('867d60a8d5de3996dd25'),
         channel  = pusher.subscribe('photos'),
-        photos  = $('photos');
+        photos   = $('photos'),
+        max_ID   = photos.children('li'.filter(':last-child').data('id');
 
     channel.bind('new-photo', function(data){
 
-        newcount += data.newcount;
-
-        console.log(newcount);
+        console.log(data);
+        console.log(max_ID);
 
         // If the loading LI still exists, removes it
         // if (photo_count===1) {
@@ -161,7 +161,7 @@ jQuery(function($){
         // li.appendChild(data.photo);
         // ul.appendChild(li);
 
-        
+
 
     });
 
