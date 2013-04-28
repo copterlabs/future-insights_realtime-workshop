@@ -186,7 +186,7 @@ jQuery(function($){
 
             for (x in new_photos) {
                 var photo = new_photos[x],
-                    caption = (typeof photo.caption.text!=='undefined') ? photo.caption.text : '',
+                    caption = (typeof photo.caption!==null) ? photo.caption.text : '',
                     img = $('<img />', {
                         src: photo.images.thumbnail.url,
                         alt: caption
@@ -196,7 +196,11 @@ jQuery(function($){
                         html: img
                     }).append($('<strong />'), {
                         text: 'Photo by ' + photo.user.username
-                    }).prependTo($("#photos")).wrap('<li />');
+                    })
+                    .hide()
+                    .prependTo($("#photos"))
+                    .wrap('<li />')
+                    .show('slow');
 
             /*
             <li>
