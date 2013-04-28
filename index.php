@@ -1,17 +1,6 @@
 <?php
 
-// Turns error reporting up to eleven
-error_reporting(E_ALL^E_STRICT);
-ini_set('display_errors', 1);
-
-// Instagram API credentials
-$ig_client_id = 'e9550fc2f7654d5ba248fc710462af7a';
-$ig_secret    = '466d4d104a4449d896c5cc977e086379';
-
-// Pusher API credentials
-$pusher_key    = '867d60a8d5de3996dd25';
-$pusher_secret = '7709ac1336e7968d1a61';
-$pusher_app_id = '42771';
+require_once 'inc/config.inc.php';
 
 // Catches the Instagram realtime Pubsubhubub challenge flow
 if (isset($_GET['hub_challenge'])) {
