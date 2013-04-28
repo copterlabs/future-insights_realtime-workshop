@@ -116,12 +116,12 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
 <?php else: ?>
 
     <header>
-        <h1>Log in to start playing with realtime! &rarr;</h1>
+        <h1>Log in to start playing with realtime!</h1>
     </header>
 
     <article>
         <a href="https://api.instagram.com/oauth/authorize/?client_id=<?=$ig_client_id?>&amp;redirect_uri=http://demo.copterlabs.com/filive/workshop/login.php&amp;response_type=code"
-           class="login button">Login</a>
+           class="login button">Login &rarr;</a>
     </article>
 
 <?php endif; ?>
