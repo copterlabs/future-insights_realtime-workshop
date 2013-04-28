@@ -24,7 +24,7 @@ header h1 {
 
 .button {
     display: block;
-    width: 70px;
+    width: 200px;
     margin: 0 auto;
     padding: 10px 20px;
     text-align: center;
@@ -44,6 +44,8 @@ header h1 {
                 0px 0px 12px 4px rgba(240,255,240,.6);
     transition: box-shadow .3s ease-out;
 }
+
+.button.login { width: 100px; }
 
 .button:hover {
     background: linear-gradient(to bottom, #efe, #cfc);
