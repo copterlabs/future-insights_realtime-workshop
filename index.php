@@ -127,8 +127,6 @@ jQuery(function($){
 
     channel.bind('new-selfie', function(data){
 
-        var selfie_count = selfies.childNodes.length;
-
         console.log(data.debug);
 
         // If the loading LI still exists, removes it
