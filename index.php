@@ -79,7 +79,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
     <li>
         <a href="<?=$photo->link?>">
             <img src="<?=$photo->images->thumbnail->url?>"
-                 alt="<?=(empty($photo->caption) ? $photo->caption->text : NULL ?>" />
+                 alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>" />
             <strong>Photo by <?=$photo->user->username?>.</strong>
         </a>
     </li>
