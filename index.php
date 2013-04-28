@@ -156,7 +156,7 @@ jQuery(function($){
 
         newcount += data.newcount;
 
-        $('#count').removeClass('hidden').text(newcount);
+        $('#count-bar').removeClass('hidden').find('#count').text(newcount);
 
         console.log(data);
         console.log(max_ID);
