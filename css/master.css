@@ -1,0 +1,10 @@
+body {
+    font-family: sans-serif;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+header,article,footer {
+    width: 700px;
+    margin: 10px auto 20px;
+}
