@@ -6,6 +6,7 @@ if (isset($_GET['code'])) {
 
     $url_params = array(
         'code' => urldecode($_GET['code']),
+        'grant_type' => 'authorization_code',
         'client_id' => $ig_client_id,
         'client_secret' => $ig_secret,
     );
