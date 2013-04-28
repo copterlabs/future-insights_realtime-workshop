@@ -81,7 +81,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
 
         <div class="message hidden"></div>
 
-        <ul id="selfies">
+        <ul id="photos">
 
         <?php foreach ($photos as $photo): ?>
             <li>
@@ -93,7 +93,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
             </li>
         <?php endforeach; ?>
 
-        </ul><!--/#selfies-->
+        </ul><!--/#photos-->
 
     </article>
 

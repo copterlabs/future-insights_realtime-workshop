@@ -8,3 +8,15 @@ header,article,footer {
     width: 700px;
     margin: 10px auto 20px;
 }
+
+#photos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#photos li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
