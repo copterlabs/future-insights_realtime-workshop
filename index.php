@@ -91,7 +91,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
 
         <div id="count-bar" class="message hidden">
             <p>
-                <strong id="count">0</strong> new photos have been added.
+                <strong id="count">0 new photos posted.</strong>
                 <a href="<?=$page_url?>"
                    class="button">&#8635; Load the new images </a>
             </p>
@@ -160,7 +160,10 @@ jQuery(function($){
 
         newcount += data.newcount;
 
-        $('#count-bar').removeClass('hidden').find('#count').text(newcount);
+        var plural = (newcount===1) ? 'photo' : 'photos';
+            phrase = newcount+' new '+plural+' uploaded.';
+
+        $('#count-bar').removeClass('hidden').find('#count').text(phrase);
 
         console.log(data);
         console.log(max_ID);
