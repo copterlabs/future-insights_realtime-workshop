@@ -172,7 +172,7 @@ jQuery(function($){
         event.preventDefault();
 
         $.get(
-            'http://api.instagram.com/v1/tags/<?=$tag?>/media/recent',
+            'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent',
             {
                 'access_token': '<?=$token?>',
                 'count': 16,
