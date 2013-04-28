@@ -1,18 +1,20 @@
-<!doctype html>
-<html lang="en">
+<?php
 
-<head>
+require_once 'inc/config.inc.php';
 
-<meta charset="utf-8" />
+if (isset($_GET['code'])) {
 
-<title></title>
+    $url_params = array(
+        'code' => urldecode($_GET['code']),
+        'client_id' => $ig_client_id,
+        'client_secret' => $ig_secret,
+    );
 
-</head>
+    $ch = curl_init('https://api.instagram.com/oauth/access_token');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($url_params));
+    $auth = curl_exec($ch);
 
-<body>
+    echo '<pre>', print_r($auth, TRUE), '</pre>';
 
-<pre><?var_dump($_POST);?></pre>
-
-</body>
-
-</html>
+}
