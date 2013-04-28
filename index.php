@@ -25,6 +25,16 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     );
 }
 
+/*
+curl -F 'client_id=e9550fc2f7654d5ba248fc710462af7a'
+     -F 'client_secret=466d4d104a4449d896c5cc977e086379'
+     -F 'object=tag'
+     -F 'aspect=media'
+     -F 'object_id=hipster'
+     -F 'callback_url=http://demo.copterlabs.com/filive/workshop/'
+     https://api.instagram.com/v1/subscriptions/
+*/
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -73,22 +83,23 @@ channel.bind('new-selfie', function(data){
 
     var selfie_count = selfies.childNodes.length;
 
+    console.log(data);
+
     // If the loading LI still exists, removes it
-    if (selfie_count===1) {
-        for (var i=0; i<selfies.childNodes.length; i++) {
-            if (selfies.childNodes[i].className==="loading") {
-                selfies.removeChild(selfies.childNodes[i]);
-            }
-        }
-    }
+    // if (selfie_count===1) {
+    //     for (var i=0; i<selfies.childNodes.length; i++) {
+    //         if (selfies.childNodes[i].className==="loading") {
+    //             selfies.removeChild(selfies.childNodes[i]);
+    //         }
+    //     }
+    // }
 
     // Creates a new LI with the selfie
     //TODO: Add selfie markup
-    var li = document.createElement("li");
-    li.appendChild(data.selfie);
-    ul.appendChild(li);
+    // var li = document.createElement("li");
+    // li.appendChild(data.selfie);
+    // ul.appendChild(li);
 
-    return;
 });
 
 </script>
