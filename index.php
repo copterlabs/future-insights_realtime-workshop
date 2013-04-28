@@ -35,7 +35,13 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 // Get most recent IG photos
 $token = isset($_GET['access_token']) ? $_GET['access_token'] : NULL;
 $tag = isset($_GET['tag']) ? $_GET['tag'] : 'photo';
-$ch = curl_init('https://api.instagram.com/v1/tags/' . $tag . '/media/recent?count=16&access_token=' . $token);
+
+$api_url = 'https://api.instagram.com/v1/tags/' 
+         . $tag . '/media/recent?count=16&access_token=' . $token;
+
+$page_url = $_SERVER['SERVER_NAME'] . dirname(__FILE__);
+
+$ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $response = json_decode(curl_exec($ch));
 $photos = $response->data;
@@ -52,7 +58,7 @@ curl -F 'client_id=6019cd09a31d488eab0a8e072f408415' \
      -F 'callback_url=http://demo.copterlabs.com/filive/workshop/' \
      https://api.instagram.com/v1/subscriptions/
 
-curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d104a4449d896c5cc977e086379&client_id=e9550fc2f7654d5ba248fc710462af7a&object=all'
+curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47c601e4d80912f5168fc8efaa7&client_id=6019cd09a31d488eab0a8e072f408415&object=all'
 
 */
 
@@ -80,7 +86,10 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
 
     <article>
 
-        <div class="message hidden"></div>
+        <div id="count-bar" class="message hidden">
+            <strong id="count">0</strong> new photos.
+            <a href="<?=$page_url?>">Load the new images.</a>
+        </div>
 
         <ul id="photos">
 
@@ -139,27 +148,16 @@ jQuery(function($){
         pusher   = new Pusher('867d60a8d5de3996dd25'),
         channel  = pusher.subscribe('photos'),
         photos   = $('photos'),
-        max_ID   = photos.children('li').filter(':last-child').data('id');
+        max_ID   = photos.children('li').filter(':last-child').find('img').data('id');
 
     channel.bind('new-photo', function(data){
 
+        newcount += data.newcount;
+
+        $('#count').removeClass('hidden').text(newcount);
+
         console.log(data);
         console.log(max_ID);
-
-        // If the loading LI still exists, removes it
-        // if (photo_count===1) {
-        //     for (var i=0; i<photos.childNodes.length; i++) {
-        //         if (photos.childNodes[i].className==="loading") {
-        //             photos.removeChild(photos.childNodes[i]);
-        //         }
-        //     }
-        // }
-
-        // Creates a new LI with the photo
-        //TODO: Add photo markup
-        // var li = document.createElement("li");
-        // li.appendChild(data.photo);
-        // ul.appendChild(li);
 
 
 
