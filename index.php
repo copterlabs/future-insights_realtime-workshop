@@ -161,7 +161,7 @@ jQuery(function($){
         // li.appendChild(data.photo);
         // ul.appendChild(li);
 
-        var 
+        
 
     });
 
