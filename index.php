@@ -85,6 +85,8 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
 
 <h1>Selfies!</h1>
 
+<a href="https://api.instagram.com/oauth/authorize/?client_id=<?=$ig_client_id?>&amp;redirect_uri=http://demo.copterlabs.com/filive/workshop/login.php&amp;response_type=code">Login</a>
+
 <div class="message hidden"></div>
 
 <ul id="selfies">
