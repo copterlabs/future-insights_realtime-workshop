@@ -92,7 +92,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
         <div id="count-bar" class="message hidden">
             <p>
                 <strong id="count">0</strong> new photos.
-                <a href="<?=$page_url?>">Load the new images.</a>
+                <a href="<?=$page_url?>">&#8635; Load the new images. </a>
             </p>
         </div>
 
@@ -116,7 +116,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
 <?php else: ?>
 
     <header>
-        <h1>Log in to start playing with realtime!</h1>
+        <h1>Log in to start playing with realtime! &rarr;</h1>
     </header>
 
     <article>

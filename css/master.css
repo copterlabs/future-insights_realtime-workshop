@@ -22,6 +22,40 @@ header h1 {
     text-transform: uppercase;
 }
 
+.button {
+    display: block;
+    width: 70px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 2px;
+    color: #141;
+    text-shadow: 1px 1px 3px #5a5, -2px -2px 3px #fff;
+    background: #dfd;
+    background: linear-gradient(to bottom, #dfd, #afa);
+    border: 1px solid #7f7;
+    box-shadow: inset 2px 2px 8px rgba(255,255,255,.8),
+                inset -2px -2px 8px #9f9,
+                0px 0px 12px 4px rgba(240,255,240,.6);
+    transition: box-shadow .3s ease-out;
+}
+
+.button:hover {
+    background: linear-gradient(to bottom, #efe, #cfc);
+    box-shadow: inset 2px 2px 8px rgba(255,255,255,.8),
+                inset -2px -2px 8px #9f9,
+                0px 0px 8px  rgba(240,255,240,.6);
+}
+
+.button:active {
+    background: linear-gradient(to top, #dfd, #afa);
+}
+
 #count-bar {
     box-sizing: border-box;
     height: 40px;
