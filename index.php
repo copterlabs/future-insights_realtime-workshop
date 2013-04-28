@@ -33,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 
 // Get 12 most recent IG photos
 $token = isset($_GET['access_token']) ? $_GET['access_token'] : NULL;
-$ch = curl_init('https://api.instagram.com/v1/tags/selfie/media/recent?count=16&access_token=' . $token);
+$tag = isset($_GET['tag']) ? $_GET['tag'] : 'selfie';
+$ch = curl_init('https://api.instagram.com/v1/tags/' . $tag . '/media/recent?count=16&access_token=' . $token);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $response = json_decode(curl_exec($ch));
 $photos = $response->data;
@@ -68,31 +69,44 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
 
 <body>
 
-<h1>Selfies!</h1>
+<?php if ($token!==NULL): ?>
 
-<a href="https://api.instagram.com/oauth/authorize/?client_id=<?=$ig_client_id?>&amp;redirect_uri=http://demo.copterlabs.com/filive/workshop/login.php&amp;response_type=code">Login</a>
+    <header>
+        <h1>Photos tagged with #<?=$tag?></h1>
+    </header>
 
-<div class="message hidden"></div>
+    <article>
 
-<ul id="selfies">
-<? foreach ($photos as $photo): ?>
-    <li>
-        <a href="<?=$photo->link?>">
-            <img src="<?=$photo->images->thumbnail->url?>"
-                 alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>" />
-            <strong>Photo by <?=$photo->user->username?>.</strong>
-        </a>
-    </li>
-<? endforeach; ?>
-</ul><!--/#selfies-->
+        <div class="message hidden"></div>
 
-<pre>
-Photos:
-<?php var_dump($photos); ?> 
+        <ul id="selfies">
 
-Session:
-<?php var_dump($_SESSION); ?> 
-</pre>
+        <?php foreach ($photos as $photo): ?>
+            <li>
+                <a href="<?=$photo->link?>">
+                    <img src="<?=$photo->images->thumbnail->url?>"
+                         alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>" />
+                    <strong>Photo by <?=$photo->user->username?>.</strong>
+                </a>
+            </li>
+        <?php endforeach; ?>
+
+        </ul><!--/#selfies-->
+
+    </article>
+
+<?php else: ?>
+
+    <header>
+        <h1>Selfies!</h1>
+    </header>
+
+    <article>
+        <a href="https://api.instagram.com/oauth/authorize/?client_id=<?=$ig_client_id?>&amp;redirect_uri=http://demo.copterlabs.com/filive/workshop/login.php&amp;response_type=code"
+           class="login button">Login</a>
+    </article>
+
+<?php endif; ?>
 
 <footer>
     <p>
