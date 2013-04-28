@@ -34,12 +34,15 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 
 // Get most recent IG photos
 $token = isset($_GET['access_token']) ? $_GET['access_token'] : NULL;
-$tag = isset($_GET['tag']) ? $_GET['tag'] : 'photo';
+$tag = isset($_GET['tag']) ? $_GET['tag'] : 'instacat';
 
 $api_url = 'https://api.instagram.com/v1/tags/' 
          . $tag . '/media/recent?count=16&access_token=' . $token;
 
-$page_url = 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']) . '/?access_token=' . $token;
+$page_url = 'http://' . $_SERVER['SERVER_NAME'] 
+          . dirname($_SERVER['REQUEST_URI']) 
+          . '/?access_token=' . $token
+          . '&tag=' . $tag;
 
 $ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
