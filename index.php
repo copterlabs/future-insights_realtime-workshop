@@ -182,7 +182,10 @@ jQuery(function($){
                 console.log(data);
             },
             "json"
-        );
+        )
+        .fail(function(){
+            console.log('Something went wrong with the GET call.');
+        });
     });
 
 });
