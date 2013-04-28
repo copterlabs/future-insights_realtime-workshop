@@ -92,7 +92,8 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
 </ul><!--/#selfies-->
 
 <pre>
-<? print_r($photos); ?> 
+Photos:
+<?php var_dump($photos); ?> 
 </pre>
 
 <footer>
