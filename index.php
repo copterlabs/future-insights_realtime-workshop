@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 
 <meta charset="utf-8" />
 
-<title></title>
+<title>Realtime Workshop by Jason Lengstorf &mdash; Future Insights Live</title>
 
 </head>
 
@@ -45,8 +45,25 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     <li class="loading">No selfies yet&hellip; #sadface</li>
 </ul><!--/#selfies-->
 
+<footer>
+    <p>
+        This demo was created by 
+        <a href="http://www.lengstorf.com/">Jason Lengstorf</a> for use at the 
+        realtime workshop at Future Insights Live 2013. It is released under the 
+        MIT License.
+    </p>
+</footer>
+
 <script src="http://js.pusher.com/2.0/pusher.min.js"></script>
 <script>
+
+// Enable pusher logging - don't include this in production
+Pusher.log = function(message) {
+    if (window.console && window.console.log) window.console.log(message);
+};
+
+// Flash fallback logging - don't include this in production
+WEB_SOCKET_DEBUG = true;
 
 var pusher  = new Pusher('867d60a8d5de3996dd25'),
     channel = pusher.subscribe('selfies'),
