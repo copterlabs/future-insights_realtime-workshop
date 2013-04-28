@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 
 // Get 12 most recent IG photos
 $token = isset($_GET['access_token']) ? $_GET['access_token'] : NULL;
-$ch = curl_init('https://api.instagram.com/v1/tags/selfie/media/recent?access_token=' . $access_token);
+$ch = curl_init('https://api.instagram.com/v1/tags/selfie/media/recent?access_token=' . $token);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $photos = curl_exec($ch);
 
