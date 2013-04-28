@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         'new-selfie', 
         array(
             'selfie' => 'New selfie!', 
-            'debug' => print_r($_POST, TRUE)
+            'debug' => json_encode($_POST)
         )
     );
 }
@@ -83,7 +83,7 @@ channel.bind('new-selfie', function(data){
 
     var selfie_count = selfies.childNodes.length;
 
-    console.log(data);
+    console.log(data.debug);
 
     // If the loading LI still exists, removes it
     // if (selfie_count===1) {
