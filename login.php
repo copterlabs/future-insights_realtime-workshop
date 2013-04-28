@@ -15,8 +15,12 @@ if (isset($_GET['code'])) {
     $ch = curl_init('https://api.instagram.com/oauth/access_token');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($url_params));
-    $auth = curl_exec($ch);
+    $return = curl_exec($ch);
+    $auth = json_decode($return);
 
-    echo '<pre>', print_r($auth, TRUE), '</pre>';
+    $_SESSION['username'] = $auth->user;
+
+    header('Location: http://demo.copterlabs.com/filive/workshop/?access_token=' . $auth->access_token);
+    exit;
 
 }
