@@ -194,11 +194,12 @@ jQuery(function($){
                     link = $('<a />', {
                         href: photo.link,
                         html: img
-                    }).append($('<strong />'), {
-                        text: 'Photo by ' + photo.user.username
                     })
                     .hide()
                     .prependTo($("#photos"))
+                    .append($('<strong />'), {
+                        text: 'Photo by ' + photo.user.username
+                    })
                     .wrap('<li />')
                     .show('slow');
 
