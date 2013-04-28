@@ -139,7 +139,7 @@ jQuery(function($){
         pusher   = new Pusher('867d60a8d5de3996dd25'),
         channel  = pusher.subscribe('photos'),
         photos   = $('photos'),
-        max_ID   = photos.children('li'.filter(':last-child').data('id');
+        max_ID   = photos.children('li').filter(':last-child').data('id');
 
     channel.bind('new-photo', function(data){
 
