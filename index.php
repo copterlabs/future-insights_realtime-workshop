@@ -186,7 +186,7 @@ jQuery(function($){
 
             for (x in new_photos) {
                 var photo = new_photos[x],
-                    caption = (typeof photo.caption!==null) ? photo.caption.text : '',
+                    caption = (photo.caption!==null) ? photo.caption.text : '',
                     img = $('<img />', {
                         src: photo.images.thumbnail.url,
                         alt: caption
