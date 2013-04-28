@@ -171,6 +171,12 @@ jQuery(function($){
     $("#image-loader").bind('click', function(event){
         event.preventDefault();
 
+        // Resets the new photo count
+        newcount = 0;
+
+        // Hides the notification
+        $("#count-bar").addClass("hidden");
+
         $.getJSON(
             'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent?callback=?',
             {
@@ -180,12 +186,17 @@ jQuery(function($){
             }
         )
         .done(function(response){
-            console.log(response);
+            var new_photos = response.data,
+                pagination = response.pagination,
+                delay = 0,
+                anim_speed = 400;
 
-            var new_photos = response.data;
+            // Sets the new max ID for loading images
+            max_ID = pagination.next_max_id;
 
             for (x in new_photos) {
-                var photo = new_photos[x],
+                var photoCont = $("#photos"),
+                    photo = new_photos[x],
                     caption = (photo.caption!==null) ? photo.caption.text : '',
                     img = $('<img />', {
                         src: photo.images.thumbnail.url,
@@ -201,18 +212,10 @@ jQuery(function($){
                         text: 'Photo by ' + photo.user.username
                     })
                     .wrap('<li />')
-                    .show('slow');
+                    .delay(delay)
+                    .show(anim_speed);
 
-            /*
-            <li>
-                <a href="<?=$photo->link?>">
-                    <img src="<?=$photo->images->thumbnail->url?>"
-                         alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>"
-                         data-id="<?=$photo->id?>" />
-                    <strong>Photo by <?=$photo->user->username?>.</strong>
-                </a>
-            </li>
-            */
+                delay += anim_speed;
             }
         })
         .error(function(data){
