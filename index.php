@@ -39,12 +39,12 @@ $tag = isset($_GET['tag']) ? $_GET['tag'] : 'photo';
 $api_url = 'https://api.instagram.com/v1/tags/' 
          . $tag . '/media/recent?count=16&access_token=' . $token;
 
-$page_url = 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']) . '/';
+$page_url = 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']) . '/?access_token=' . $token;
 
 $ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $response = json_decode(curl_exec($ch));
-$photos = $response->data;
+$photos = property_exists($response, 'data') ? $response->data : array();
 
 /*
 
