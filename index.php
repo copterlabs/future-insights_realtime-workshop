@@ -127,7 +127,7 @@ jQuery(function($){
 
     channel.bind('new-selfie', function(data){
 
-        console.log(data.debug);
+        console.log(data);
 
         // If the loading LI still exists, removes it
         // if (selfie_count===1) {
