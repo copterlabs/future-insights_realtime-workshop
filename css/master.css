@@ -10,12 +10,13 @@ body {
 header,article,footer {
     width: 700px;
     margin: 0 auto;
-    padding: 20px 40px 10px;
+    padding: 20px 40px 0;
     background: #fff;
 }
 
 header h1 {
     margin: 0 12px;
+    padding: 0;
     font-size: 24px;
     letter-spacing: 6px;
     font-weight: 100;
@@ -26,7 +27,7 @@ header h1 {
     display: block;
     width: 200px;
     margin: 0 auto;
-    padding: 10px 20px;
+    padding: 5px 10px;
     text-align: center;
     border-radius: 8px;
     font-weight: 600;
@@ -40,12 +41,17 @@ header h1 {
     background: linear-gradient(to bottom, #dfd, #afa);
     border: 1px solid #7f7;
     box-shadow: inset 2px 2px 8px rgba(255,255,255,.8),
-                inset -2px -2px 8px #9f9,
-                0px 0px 12px 4px rgba(240,255,240,.6);
+                inset -2px -2px 8px #9f9;
     transition: box-shadow .3s ease-out;
 }
 
-.button.login { width: 100px; }
+.button.login {
+    width: 100px;
+    padding: 10px 20px;
+    box-shadow: inset 2px 2px 8px rgba(255,255,255,.8),
+                inset -2px -2px 8px #9f9,
+                0px 0px 12px 4px rgba(240,255,240,.6);
+}
 
 .button:hover {
     background: linear-gradient(to bottom, #efe, #cfc);
@@ -60,22 +66,28 @@ header h1 {
 
 #count-bar {
     box-sizing: border-box;
-    height: 40px;
+    height: 55px;
     margin: 0 auto;
     padding: 0;
-    background: #dfd;
-    border: 1px solid #7f7;
+    background: #fdfdfd;
+    border: 1px solid #eee;
     border-radius: 15px;
     -webkit-transition: all 1s ease-in-out;
     font-weight: 100;
     letter-spacing: 2px;
     text-transform: uppercase;
     overflow: hidden;
+    text-align: center;
 }
 
 #count-bar.hidden {
     height: 0;
     border: 0;
+}
+
+#count-bar .button {
+    display: inline-block;
+    width: 300px;
 }
 
 #count-bar p {
@@ -86,7 +98,7 @@ header h1 {
 
 #photos {
     list-style: none;
-    margin: 20px 0 0;
+    margin: 30px 0 0;
     padding: 0;
     overflow: hidden;
 }
@@ -123,6 +135,8 @@ header h1 {
 }
 
 footer {
+    margin-top: 0;
+    padding-bottom: 10px;
     font-size: 12px;
     font-weight: 100;
     letter-spacing: 2px;

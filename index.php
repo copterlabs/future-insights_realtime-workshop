@@ -91,8 +91,9 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
 
         <div id="count-bar" class="message hidden">
             <p>
-                <strong id="count">0</strong> new photos.
-                <a href="<?=$page_url?>">&#8635; Load the new images. </a>
+                <strong id="count">0</strong> new photos have been added.
+                <a href="<?=$page_url?>"
+                   class="button">&#8635; Load the new images </a>
             </p>
         </div>
 
