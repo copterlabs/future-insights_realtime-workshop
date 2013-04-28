@@ -47,6 +47,7 @@ $ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $response = json_decode(curl_exec($ch));
 $photos = property_exists($response, 'data') ? $response->data : array();
+$next_max_id = property_exists($response, 'pagination') ? $response->pagination->next_max_id : NULL;
 
 /*
 
@@ -56,7 +57,7 @@ curl -F 'client_id=6019cd09a31d488eab0a8e072f408415' \
      -F 'client_secret=d1fcd47c601e4d80912f5168fc8efaa7' \
      -F 'object=tag' \
      -F 'aspect=media' \
-     -F 'object_id=instacat' \
+     -F 'object_id=filive' \
      -F 'callback_url=http://demo.copterlabs.com/filive/workshop/' \
      https://api.instagram.com/v1/subscriptions/
 
@@ -97,7 +98,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
             </p>
         </div>
 
-        <ul id="photos">
+        <ul id="photos" data-next-max-ID="<?=$next_max_id?>">
 
         <?php foreach ($photos as $photo): ?>
             <li>
@@ -154,8 +155,7 @@ jQuery(function($){
         pusher   = new Pusher('<?=$pusher_key?>'),
         channel  = pusher.subscribe('photos'),
         photos   = $('photos'),
-        max_ID   = photos.children('li').filter(':last-child')
-                    .find('img').data('id');
+        max_ID   = photos.data('next-max-ID');
 
     channel.bind('new-photo', function(data){
 
@@ -172,19 +172,18 @@ jQuery(function($){
         event.preventDefault();
 
         $.getJSON(
-            'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent',
+            'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent?callback=?',
             {
                 'access_token': '<?=$token?>',
                 'count': 16,
-                'max_id': max_ID,
-                'callback': 'igLoad'
+                'max_id': max_ID
             }
         )
-        .done(function(data) {
+        .done(function(data){
             console.log(data);
         })
-        .fail(function(){
-            console.log('Something went wrong with the GET call.');
+        .error(function(data){
+            console.log(data);
         });
     });
 
