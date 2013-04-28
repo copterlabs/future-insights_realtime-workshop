@@ -151,7 +151,7 @@ jQuery(function($){
     WEB_SOCKET_DEBUG = true;
 
     var newcount = 0,
-        pusher   = new Pusher(<?=$pusher_key?>),
+        pusher   = new Pusher('<?=$pusher_key?>'),
         channel  = pusher.subscribe('photos'),
         photos   = $('photos'),
         max_ID   = photos.children('li').filter(':last-child')
