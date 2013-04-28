@@ -75,11 +75,6 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
 
 <link rel="stylesheet" href="css/master.css" />
 
-<link rel="icon" type="image/vnd.microsoft.icon" 
-      href="http://www.copterlabs.com/favicon.ico" />
-<link rel="shortcut icon" type="image/vnd.microsoft.icon" 
-      href="http://www.copterlabs.com/favicon.ico" />
-
 <title>Realtime Workshop by Jason Lengstorf &mdash; Future Insights Live</title>
 
 </head>
