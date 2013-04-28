@@ -22,10 +22,11 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     if ($length>0) {
         $pusher = new Pusher($pusher_key, $pusher_secret, $pusher_app_id);
         $pusher->trigger(
-            'selfies', 
-            'new-selfie', 
+            'photos', 
+            'new-photo', 
             array(
                 'newcount' => $length,
+                'photos' => $photos,
             )
         );
     }
@@ -33,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 
 // Get most recent IG photos
 $token = isset($_GET['access_token']) ? $_GET['access_token'] : NULL;
-$tag = isset($_GET['tag']) ? $_GET['tag'] : 'selfie';
+$tag = isset($_GET['tag']) ? $_GET['tag'] : 'photo';
 $ch = curl_init('https://api.instagram.com/v1/tags/' . $tag . '/media/recent?count=16&access_token=' . $token);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $response = json_decode(curl_exec($ch));
@@ -43,11 +44,11 @@ $photos = $response->data;
 
 https://api.instagram.com/v1/tags/nofilter/media/recent
 
-curl -F 'client_id=e9550fc2f7654d5ba248fc710462af7a' \
-     -F 'client_secret=466d4d104a4449d896c5cc977e086379' \
+curl -F 'client_id=6019cd09a31d488eab0a8e072f408415' \
+     -F 'client_secret=d1fcd47c601e4d80912f5168fc8efaa7' \
      -F 'object=tag' \
      -F 'aspect=media' \
-     -F 'object_id=selfie' \
+     -F 'object_id=pbr' \
      -F 'callback_url=http://demo.copterlabs.com/filive/workshop/' \
      https://api.instagram.com/v1/subscriptions/
 
@@ -87,7 +88,8 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
             <li>
                 <a href="<?=$photo->link?>">
                     <img src="<?=$photo->images->thumbnail->url?>"
-                         alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>" />
+                         alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>"
+                         data-id="<?=$photo->id?>" />
                     <strong>Photo by <?=$photo->user->username?>.</strong>
                 </a>
             </li>
@@ -100,7 +102,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=466d4d1
 <?php else: ?>
 
     <header>
-        <h1>Selfies!</h1>
+        <h1>Log in to start playing with realtime!</h1>
     </header>
 
     <article>
@@ -135,29 +137,31 @@ jQuery(function($){
 
     var newcount = 0,
         pusher   = new Pusher('867d60a8d5de3996dd25'),
-        channel  = pusher.subscribe('selfies'),
-        selfies  = $('selfies');
+        channel  = pusher.subscribe('photos'),
+        photos  = $('photos');
 
-    channel.bind('new-selfie', function(data){
+    channel.bind('new-photo', function(data){
 
         newcount += data.newcount;
 
         console.log(newcount);
 
         // If the loading LI still exists, removes it
-        // if (selfie_count===1) {
-        //     for (var i=0; i<selfies.childNodes.length; i++) {
-        //         if (selfies.childNodes[i].className==="loading") {
-        //             selfies.removeChild(selfies.childNodes[i]);
+        // if (photo_count===1) {
+        //     for (var i=0; i<photos.childNodes.length; i++) {
+        //         if (photos.childNodes[i].className==="loading") {
+        //             photos.removeChild(photos.childNodes[i]);
         //         }
         //     }
         // }
 
-        // Creates a new LI with the selfie
-        //TODO: Add selfie markup
+        // Creates a new LI with the photo
+        //TODO: Add photo markup
         // var li = document.createElement("li");
-        // li.appendChild(data.selfie);
+        // li.appendChild(data.photo);
         // ul.appendChild(li);
+
+        var 
 
     });
 
