@@ -47,7 +47,7 @@ $ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $response = json_decode(curl_exec($ch));
 $photos = property_exists($response, 'data') ? $response->data : array();
-$next_max_id = property_exists($response, 'pagination') ? $response->pagination->next_max_id : NULL;
+$next_min_id = property_exists($response, 'pagination') ? $response->pagination->next_min_id : NULL;
 
 /*
 
@@ -98,7 +98,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
             </p>
         </div>
 
-        <ul id="photos" data-next-max-ID="<?=$next_max_id?>">
+        <ul id="photos" data-next-min-ID="<?=$next_min_id?>">
 
         <?php foreach ($photos as $photo): ?>
             <li>
@@ -155,7 +155,7 @@ jQuery(function($){
         pusher   = new Pusher('<?=$pusher_key?>'),
         channel  = pusher.subscribe('photos'),
         photos   = $('photos'),
-        max_ID   = photos.data('next-max-ID');
+        min_ID   = photos.data('next-min-ID');
 
     channel.bind('new-photo', function(data){
 
@@ -182,7 +182,7 @@ jQuery(function($){
             {
                 'access_token': '<?=$token?>',
                 'count': 16,
-                'max_id': max_ID
+                'min_id': min_ID
             }
         )
         .done(function(response){
@@ -191,8 +191,8 @@ jQuery(function($){
                 delay = 0,
                 anim_speed = 400;
 
-            // Sets the new max ID for loading images
-            max_ID = pagination.next_max_id;
+            // Sets the new min ID for loading images
+            min_ID = pagination.next_min_id;
 
             for (x in new_photos) {
                 var photoCont = $("#photos"),
@@ -207,12 +207,12 @@ jQuery(function($){
                         html: img
                     })
                     .hide()
+                    .delay(delay)
                     .prependTo($("#photos"))
                     .append($('<strong />'), {
                         text: 'Photo by ' + photo.user.username
                     })
                     .wrap('<li />')
-                    .delay(delay)
                     .show(anim_speed);
 
                 delay += anim_speed;
