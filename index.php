@@ -1,5 +1,9 @@
 <?php
 
+// Turns error reporting up to eleven
+error_reporting(E_ALL^E_STRICT);
+ini_set('display_errors', 1);
+
 // Catches the Instagram realtime Pubsubhubub challenge flow
 if (isset($_GET['hub_challenge'])) {
     echo $_GET['hub_challenge'];
@@ -8,12 +12,17 @@ if (isset($_GET['hub_challenge'])) {
 
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     // Instantiates Pusher PHP API
-    // require 'lib/Pusher.php';
+    require 'lib/Pusher.php';
 
-    // $pusher = new Pusher('867d60a8d5de3996dd25', '7709ac1336e7968d1a61', '42771');
-    // $pusher->trigger('selfies', 'new-selfie', array('selfie' => 'New selfie!'))
-
-    mail('jason@lengstorf.com', 'Realtime POST', print_r($_POST, TRUE));
+    $pusher = new Pusher('867d60a8d5de3996dd25', '7709ac1336e7968d1a61', '42771');
+    $pusher->trigger(
+        'selfies', 
+        'new-selfie', 
+        array(
+            'selfie' => 'New selfie!', 
+            'debug' => print_r($_POST, TRUE)
+        )
+    );
 }
 
 ?>
