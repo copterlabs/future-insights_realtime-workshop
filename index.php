@@ -139,7 +139,6 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
 
 <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 <script src="http://js.pusher.com/2.0/pusher.min.js"></script>
-<script src="js/isotope/jquery.isotope.min.js"></script>
 <script>
 
 jQuery(function($){
@@ -157,10 +156,6 @@ jQuery(function($){
         channel  = pusher.subscribe('photos'),
         photos   = $('photos'),
         min_ID   = photos.data('next-min-ID');
-
-    photos.isotope({
-        itemSelector: 'li'
-    });
 
     channel.bind('new-photo', function(data){
 
