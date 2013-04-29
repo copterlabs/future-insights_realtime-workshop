@@ -39,7 +39,7 @@ $token = isset($_GET['access_token']) ? $_GET['access_token'] : NULL;
 $login_url = 'https://api.instagram.com/oauth/authorize/'
            . '?client_id=' . $ig_client_id
            . '&amp;redirect_uri=' . $ig_login_uri
-           . '&amp;response_type=code'
+           . '&amp;response_type=code';
 
 ?>
 <!doctype html>
