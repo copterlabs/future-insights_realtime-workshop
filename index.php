@@ -188,25 +188,26 @@ jQuery(function($){
                 for (x in new_photos) {
                     var photoCont = $("#photos"),
                         photo = new_photos[x],
-                        caption = (photo.caption!==null) ? photo.caption.text : '',
-                        img = $('<img />', {
-                            src: photo.images.thumbnail.url,
-                            alt: caption,
-                            load: function(){
-                                var link = $('<a />', {
-                                        href: photo.link,
-                                        html: this
-                                    })
-                                    .css({opacity: 0})
-                                    .delay(delay)
-                                    .prependTo($("#photos"))
-                                    .append($('<strong />'), {
-                                        text: 'Photo by ' + photo.user.username
-                                    })
-                                    .wrap('<li />')
-                                    .animate({ opacity: 1 }, anim_speed);
-                            }
-                        });
+                        caption = (photo.caption!==null) ? photo.caption.text : '';
+    
+                    $('<img />', {
+                        src: photo.images.thumbnail.url,
+                        alt: caption,
+                        load: function(){
+                            var link = $('<a />', {
+                                    href: photo.link,
+                                    html: this
+                                })
+                                .css({opacity: 0})
+                                .delay(delay)
+                                .prependTo($("#photos"))
+                                .append($('<strong />'), {
+                                    text: 'Photo by ' + photo.user.username
+                                })
+                                .wrap('<li />')
+                                .animate({ opacity: 1 }, anim_speed);
+                        }
+                    });
 
                     delay += anim_speed;
                 }
