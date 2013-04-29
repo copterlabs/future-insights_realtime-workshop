@@ -48,6 +48,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $response = json_decode(curl_exec($ch));
 $photos = property_exists($response, 'data') ? $response->data : array();
 $next_min_id = property_exists($response, 'pagination') ? $response->pagination->next_min_id : NULL;
+$next_max_id = property_exists($response, 'pagination') ? $response->pagination->next_max_id : NULL;
 
 /*
 
@@ -98,7 +99,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
             </p>
         </div>
 
-        <ul id="photos" data-next-min-ID="<?=$next_min_id?>">
+        <ul id="photos" data-next-min-ID="<?=$next_max_id?>">
 
         <?php foreach ($photos as $photo): ?>
             <li>
