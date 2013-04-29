@@ -230,6 +230,8 @@ jQuery(function($){
         load_photos();
     });
 
+    load_photos();
+
 });
 
 </script>
