@@ -191,20 +191,22 @@ jQuery(function($){
                         caption = (photo.caption!==null) ? photo.caption.text : '',
                         img = $('<img />', {
                             src: photo.images.thumbnail.url,
-                            alt: caption
-                        }),
-                        link = $('<a />', {
-                            href: photo.link,
-                            html: img
-                        })
-                        .hide()
-                        .delay(delay)
-                        .prependTo($("#photos"))
-                        .append($('<strong />'), {
-                            text: 'Photo by ' + photo.user.username
-                        })
-                        .wrap('<li />')
-                        .show(anim_speed);
+                            alt: caption,
+                            load: function(){
+                                var link = $('<a />', {
+                                        href: photo.link,
+                                        html: this
+                                    })
+                                    .hide()
+                                    .delay(delay)
+                                    .prependTo($("#photos"))
+                                    .append($('<strong />'), {
+                                        text: 'Photo by ' + photo.user.username
+                                    })
+                                    .wrap('<li />')
+                                    .show(anim_speed);
+                            }
+                        });
 
                     delay += anim_speed;
                 }
