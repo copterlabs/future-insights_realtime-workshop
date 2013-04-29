@@ -197,14 +197,14 @@ jQuery(function($){
                                         href: photo.link,
                                         html: this
                                     })
-                                    .fadeOut()
+                                    .css({opacity: 0})
                                     .delay(delay)
                                     .prependTo($("#photos"))
                                     .append($('<strong />'), {
                                         text: 'Photo by ' + photo.user.username
                                     })
                                     .wrap('<li />')
-                                    .fadeIn(anim_speed);
+                                    .animate({ opacity: 1 }, anim_speed);
                             }
                         });
 
