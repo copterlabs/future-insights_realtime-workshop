@@ -197,13 +197,13 @@ jQuery(function($){
                                         href: photo.link,
                                         html: this
                                     })
-                                    .hide()
+                                    .fadeOut()
                                     .delay(delay)
                                     .prependTo($("#photos"))
                                     .append($('<strong />'), {
                                         text: 'Photo by ' + photo.user.username
                                     })
-                                    .wrap('<li />')
+                                    .fadeIn('<li />')
                                     .show(anim_speed);
                             }
                         });
