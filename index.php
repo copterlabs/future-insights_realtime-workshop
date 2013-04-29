@@ -203,8 +203,8 @@ jQuery(function($){
                                     .append($('<strong />'), {
                                         text: 'Photo by ' + photo.user.username
                                     })
-                                    .fadeIn('<li />')
-                                    .show(anim_speed);
+                                    .wrap('<li />')
+                                    .fadeIn(anim_speed);
                             }
                         });
 
