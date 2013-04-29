@@ -47,8 +47,6 @@ $ch = curl_init($api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $response = json_decode(curl_exec($ch));
 $photos = property_exists($response, 'data') ? $response->data : array();
-$next_min_id = property_exists($response, 'pagination') ? $response->pagination->next_min_id : NULL;
-$next_max_id = property_exists($response, 'pagination') ? $response->pagination->next_max_id : NULL;
 
 /*
 
@@ -99,7 +97,7 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
             </p>
         </div>
 
-        <ul id="photos" data-next-min-ID="<?=$next_max_id?>">
+        <ul id="photos">
 
         <?php //foreach ($photos as $photo): ?>
             <li class="loading">Loading&hellip;</li>
@@ -174,10 +172,10 @@ jQuery(function($){
                 var new_photos = response.data,
                     pagination = response.pagination,
                     delay = 0,
-                    anim_speed = 200;   
+                    anim_speed = 200;
 
                 // Removes the loading LI if present
-                $("#photos").find('.loading').hide(400).delay(400).remove();             
+                $("#photos").find('.loading').hide(400).delay(400).remove();
 
                 // Resets the new photo count
                 newcount = 0;
@@ -189,7 +187,9 @@ jQuery(function($){
                     var photoCont = $("#photos"),
                         photo = new_photos[x],
                         caption = (photo.caption!==null) ? photo.caption.text : '';
-    
+
+//TODO: Make the captions show up and fix delay
+
                     $('<img />', {
                         src: photo.images.thumbnail.url,
                         alt: caption,

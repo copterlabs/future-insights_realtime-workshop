@@ -6,6 +6,18 @@ This is the demo application that will be built during [Jason Lengtorf][1]'s wor
 using [Instagram's API][3] and [Pusher][4].
 
 
+Walkthrough
+-----------
+
+To build this app, you'll need to run through the following steps:
+
+1.  Set up a live dev environment (AppFog is great if you don't have access to 
+    your own)
+1.  Register a new app with Instagram
+1.  Register a new app with Pusher
+
+
+
 Copyright and license
 ---------------------
 
