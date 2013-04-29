@@ -162,8 +162,6 @@ jQuery(function($){
             // Hides the notification
             $("#count-bar").addClass("hidden");
 
-            $("#photos").find('.loading').hide(400).delay(400).remove();
-
             $.getJSON(
                 'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent?callback=?',
                 {
@@ -176,7 +174,10 @@ jQuery(function($){
                 var new_photos = response.data,
                     pagination = response.pagination,
                     delay = 0,
-                    anim_speed = 200;                
+                    anim_speed = 200;   
+
+                // Removes the loading LI if present
+                $("#photos").find('.loading').hide(400).delay(400).remove();             
 
                 // Resets the new photo count
                 newcount = 0;
