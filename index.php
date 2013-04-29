@@ -162,7 +162,7 @@ jQuery(function($){
             // Hides the notification
             $("#count-bar").addClass("hidden");
 
-            photos.find('.loading').hide(400).delay(400).remove();
+            $("#photos").find('.loading').hide(400).delay(400).remove();
 
             $.getJSON(
                 'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent?callback=?',
