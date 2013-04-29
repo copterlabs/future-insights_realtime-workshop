@@ -111,9 +111,9 @@ header h1 {
     padding: 0;
 }
 
-#photos li:nth-child(4n+1) {
+/*#photos li:nth-child(4n+1) {
     clear: left;
-}
+}*/
 
 #photos li a {
     display: block;
