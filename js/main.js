@@ -32,40 +32,49 @@ jQuery(function($){
                 // Sets the new min ID for loading images
                 min_ID = pagination.next_min_id;
 
+                // Loops through the loaded photos
                 for (x in new_photos) {
                     var photoCont = $("#photos"),
                         photo = new_photos[x],
                         caption = null;
 
+                    // If a caption exists, sets it
                     if (photo.caption!==null) {
                         caption = photo.caption.text;
                     }
 
+                    // Creates a new image element
                     $('<img />', {
                         src: photo.images.thumbnail.url,
                         alt: caption,
                         data: {
-                            info: photo
+                            info: photo // Passes photo info to the callback
                         }
                     })
                     .load(function(){
-                        var photo = $(this).data('info'),
+                        
+                        // Sets up shortcut vars and byline markup
+                        var cont   = $("#photos"),
+                            photo  = $(this).data('info'), // Reads photo data
                             byline = $('<strong />', {
                                 text: 'Photo by ' + photo.user.username
                             });
                         
+                        // Creates a new link around the image
                         $('<a />', {
                             href: photo.link,
                             html: this
                         })
-                        .css({opacity: 0})
-                        .delay(delay)
-                        .prependTo($("#photos"))
-                        .append(byline)
-                        .wrap('<li />')
-                        .animate({ opacity: 1 }, anim_speed);
+                        .css({opacity: 0})  // Starts the effect
+                        .delay(delay)       // Adds a delay
+                        .prependTo(cont)    // Adds the new element to the DOM
+                        .append(byline)     // Inserts the attribution
+                        .wrap('<li />')     // Wraps the whole thing in a LI
+                        .animate({
+                            opacity: 1
+                        }, anim_speed);     // Finishes the effect
 
-                        delay += anim_speed
+                        delay += anim_speed // Simulates sequential loading
                     });
                 }
             })
@@ -74,23 +83,29 @@ jQuery(function($){
             });
         };
 
+    // Adds a realtime listener
     channel.bind('new-photo', function(data){
 
+        // Keeps a running tally of new photos not yet loaded
         newcount += data.newcount;
 
+        // Grammar stuffs
         var plural = (newcount===1) ? 'photo' : 'photos';
             phrase = newcount+' new '+plural+' uploaded.';
 
+        // Updates the count bar with the new information
         $('#count-bar').removeClass('hidden').find('#count').text(phrase);
 
     });
 
+    // Click handler for the "Load the New Images" button
     $("#image-loader").bind('click', function(event){
         event.preventDefault();
 
         load_photos();
     });
 
+    // For initialization purposes, loads the photos once the DOM is ready
     load_photos();
 
 });
