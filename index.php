@@ -101,16 +101,17 @@ curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=d1fcd47
 
         <ul id="photos" data-next-min-ID="<?=$next_max_id?>">
 
-        <?php foreach ($photos as $photo): ?>
-            <li>
+        <?php //foreach ($photos as $photo): ?>
+            <li class="loading">Loading&hellip;</li>
+            <!-- <li>
                 <a href="<?=$photo->link?>">
                     <img src="<?=$photo->images->thumbnail->url?>"
                          alt="<?=(empty($photo->caption)) ? $photo->caption->text : NULL ?>"
                          data-id="<?=$photo->id?>" />
                     <strong>Photo by <?=$photo->user->username?></strong>
                 </a>
-            </li>
-        <?php endforeach; ?>
+            </li> -->
+        <?php //endforeach; ?>
 
         </ul><!--/#photos-->
 
@@ -156,7 +157,61 @@ jQuery(function($){
         pusher   = new Pusher('<?=$pusher_key?>'),
         channel  = pusher.subscribe('photos'),
         photos   = $('photos'),
-        min_ID   = photos.data('next-min-ID');
+        min_ID   = photos.data('next-min-ID'),
+        load_photos = function() {
+            // Hides the notification
+            $("#count-bar").addClass("hidden");
+
+            photos.find('.loading').hide(400).delay(400).remove();
+
+            $.getJSON(
+                'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent?callback=?',
+                {
+                    'access_token': '<?=$token?>',
+                    'count': 16,
+                    'min_id': min_ID
+                }
+            )
+            .done(function(response){
+                var new_photos = response.data,
+                    pagination = response.pagination,
+                    delay = 0,
+                    anim_speed = 200;                
+
+                // Resets the new photo count
+                newcount = 0;
+
+                // Sets the new min ID for loading images
+                min_ID = pagination.next_min_id;
+
+                for (x in new_photos) {
+                    var photoCont = $("#photos"),
+                        photo = new_photos[x],
+                        caption = (photo.caption!==null) ? photo.caption.text : '',
+                        img = $('<img />', {
+                            src: photo.images.thumbnail.url,
+                            alt: caption
+                        }),
+                        link = $('<a />', {
+                            href: photo.link,
+                            html: img
+                        })
+                        .hide()
+                        .delay(delay)
+                        .prependTo($("#photos"))
+                        .append($('<strong />'), {
+                            text: 'Photo by ' + photo.user.username
+                        })
+                        .wrap('<li />')
+                        .show(anim_speed);
+
+                    delay += anim_speed;
+                }
+            })
+            .error(function(data){
+                console.log(data);
+            });
+        };
 
     channel.bind('new-photo', function(data){
 
@@ -172,56 +227,7 @@ jQuery(function($){
     $("#image-loader").bind('click', function(event){
         event.preventDefault();
 
-        // Resets the new photo count
-        newcount = 0;
-
-        // Hides the notification
-        $("#count-bar").addClass("hidden");
-
-        $.getJSON(
-            'https://api.instagram.com/v1/tags/<?=$tag?>/media/recent?callback=?',
-            {
-                'access_token': '<?=$token?>',
-                'count': 16,
-                'min_id': min_ID
-            }
-        )
-        .done(function(response){
-            var new_photos = response.data,
-                pagination = response.pagination,
-                delay = 0,
-                anim_speed = 400;
-
-            // Sets the new min ID for loading images
-            min_ID = pagination.next_min_id;
-
-            for (x in new_photos) {
-                var photoCont = $("#photos"),
-                    photo = new_photos[x],
-                    caption = (photo.caption!==null) ? photo.caption.text : '',
-                    img = $('<img />', {
-                        src: photo.images.thumbnail.url,
-                        alt: caption
-                    }),
-                    link = $('<a />', {
-                        href: photo.link,
-                        html: img
-                    })
-                    .hide()
-                    .delay(delay)
-                    .prependTo($("#photos"))
-                    .append($('<strong />'), {
-                        text: 'Photo by ' + photo.user.username
-                    })
-                    .wrap('<li />')
-                    .show(anim_speed);
-
-                delay += anim_speed;
-            }
-        })
-        .error(function(data){
-            console.log(data);
-        });
+        load_photos();
     });
 
 });
