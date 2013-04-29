@@ -18,7 +18,7 @@ if (isset($_GET['code'])) {
     $return = curl_exec($ch);
     $auth = json_decode($return);
 
-    header('Location: http://demo.copterlabs.com/filive/workshop/?access_token=' . $auth->access_token);
+    header('Location: ./?access_token=' . $auth->access_token);
     exit;
 
 }
